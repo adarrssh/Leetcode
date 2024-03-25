@@ -54,11 +54,26 @@ class MaxHeap {
         if (this.heap.length <= 1) {
             return null;
         }
+
+        if(this.heap.length === 2){
+            return this.heap.pop()
+        }
+
         const maxValue = this.heap[1];
         this.heap[1] = this.heap.pop();
         this.bubbleDown(1);
         return maxValue;
     }
+
+    length(){
+        return this.heap.length - 1 
+    }
+    
+    isEmpty(){
+        return this.heap.length === 1
+    }
 }
 
-export default{ MaxHeap}
+
+module.exports = MaxHeap
+
