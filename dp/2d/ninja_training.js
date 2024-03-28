@@ -1,82 +1,81 @@
-const arr = [
-    [10,40,70], 
-    [20 ,50 ,80] ,
-    [30,60,90] ]
+const nums = 
+[
+    [1, 2, 5], 
+    [3, 1, 1], 
+    [3, 3, 3]
+]
 
-    // const dp = new Array(arr.length + 1);
-    // for (let i = 0; i < dp.length; i++) {
-    //     dp[i] = new Array(4).fill(0);
-    // }
-    
-    
-function recursion(day,lastIndex){
-    if(day === 0){
-        let max = Number.MIN_SAFE_INTEGER
-        for(let i = 0 ; i<3 ; i++){
-            if(i !== lastIndex){
-                max = Math.max(max,arr[day][i])
-            }
-        }
+const n = nums.length
 
-        return max
-    }
+function recursion(row, col, nums) {
+    if (row < 0) return 0
 
-    if(dp[day][lastIndex] !== -1) return dp[day][lastIndex]
-    let max = Number.MIN_SAFE_INTEGER
+    let max = -Infinity
 
-    for(let i = 0 ; i<3 ; i++){
-        if(i !== lastIndex){
-            max = Math.max(max, arr[day][i] + recursion(day-1,i))
+    for (let i = 0; i < 3; i++) {
+        if (i !== col) {
+            max = Math.max(max, recursion(row - 1, i, nums) + nums[row][i])
         }
     }
 
-    dp[day][lastIndex] = max
     return max
 }
 
 
-function tabulation(){
-    dp[0][0] = Math.max(arr[0][1], arr[0][2])
-    dp[0][1] = Math.max(arr[0][0], arr[0][2])
-    dp[0][2] = Math.max(arr[0][0], arr[0][1])
 
-    for(let day = 1 ; day < arr.length ; day++){
-        for(task = 0 ; task<3; task++){
-            dp[day][task] = arr[day][task] + dp[day-1][task]
+function memoization(nums,n){
+
+    // NOTE :::: ----> 4 size 2d array
+    const dp = Array.from({ length: n }, () => new Array(3).fill(-1));
+
+    return solve(n-1,2)
+
+
+    function solve(row,col){
+        if (row < 0) return 0
+        if(dp[row][col] !== -1) return dp[row][col]
+
+        let max = -Infinity
+    
+        for (let i = 0; i < 3; i++) {
+            if (i !== col) {
+                max = Math.max(max, recursion(row - 1, i, nums) + nums[row][i])
+            }
+        }
+
+        dp[row][col] = max
+        return max  
+    }
+}
+
+console.log(memoization(nums,n))
+
+function tabulation(nums,n){
+
+    const dp = Array.from({ length: n }, () => new Array(3).fill(0));
+    
+    for(let task = 0 ; task<3 ; task++ ){
+        dp[0][task] = nums[0][task]
+    }
+
+    for(let day = 1 ; day<n ; day++){
+        for(let currentTask = 0 ; currentTask <3 ; currentTask++){
+
+            let max = -Infinity
+
+            for(let prevTask = 0 ; prevTask<3 ; prevTask++){
+
+                if(currentTask !== prevTask){
+                    max = Math.max(max, dp[day-1][prevTask] + nums[day][currentTask])
+                }
+            }
+
+            dp[day][currentTask] = max
         }
     }
 
-    let ans = Number.MIN_SAFE_INTEGER
-    for(let i = 0 ; i< dp[0].length ; i++){
-        ans = Math.max(ans,dp[2][i])
-    }
-
-    return ans
-}
-
-
-// space optimized 
-
-function spaceOpt(){
-    let dp = new Array(3).fill(0)
-    let curr = new Array(3).fill(0)
-    dp[0] = Math.max(arr[0][1], arr[0][2])
-    dp[1]  = Math.max(arr[0][0], arr[0][2])
-    dp[2] = Math.max(arr[0][0], arr[0][1])
-
-    for(let day = 1 ; day < arr.length ; day++){
-        for( let task = 0 ; task<3; task++){
-            curr[task] = arr[day][task] + dp[task]
-        }
-
-        dp  = [...curr]
-    }
-
-    let ans = Number.MIN_SAFE_INTEGER
-    for(let i = 0 ; i< dp.length ; i++){
-        ans = Math.max(ans,dp[i])
-    }
-
-    return ans
+    return Math.max(...dp[n-1])
 
 }
+
+

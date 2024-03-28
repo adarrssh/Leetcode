@@ -1,7 +1,3 @@
-const MaxHeap = require('./heap/maxHeap')
+"use strcit"
 
-const heap = new MaxHeap()
-heap.insert(10)
-heap.insert(20)
-heap.insert(2)
-console.log(heap.getMax())
+let a = "b"
