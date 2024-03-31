@@ -1,3 +1,1 @@
-"use strcit"
-
-let a = "b"
+console.log('0'.charCodeAt(0))
