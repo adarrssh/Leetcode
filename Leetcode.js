@@ -1,1 +1,1 @@
-console.log('0'.charCodeAt(0))
+console.log('A'.charCodeAt(0))
