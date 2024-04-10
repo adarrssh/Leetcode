@@ -72,6 +72,13 @@ class MinHeap {
     isEmpty(){
         return this.heap.length === 1
     }
+
+    buildHeap(array) {
+        this.heap = [null, ...array]; // Initialize heap with null as the first element
+        for (let i = Math.floor(this.heap.length / 2); i >= 1; i--) {
+            this.bubbleDown(i);
+        }
+    }
 }
 
 
