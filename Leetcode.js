@@ -1,21 +1,11 @@
-let ans = [
-    [1,1,2],
-    [1,1,2],
-    [1,2,3],
-    [1,2,3],
-    [1,3,4]
-]
-
-let set = new Set()
-
-for(let ele of ans){
-    set.add(JSON.stringify(ele))
+function main(k){
+  return child(k)
 }
 
-ans = []
-
-for(let ele of set){
-    ans.push(JSON.parse(ele))
+function child(k){
+  k--
+  return k
 }
 
-console.log(ans)
+let a = main(3)
+console.log(a)
